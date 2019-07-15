@@ -32,6 +32,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     implementation rootProject.ext.dependencies.okhttp
+    implementation rootProject.ext.dependencies.okhttp_log
     implementation rootProject.ext.dependencies.retrofit
     implementation rootProject.ext.dependencies.retrofit_adapter_rxjava2
     implementation rootProject.ext.dependencies.retrofit_gson_convertor

@@ -6,6 +6,7 @@ ext {
     ]
     dependencies = [
             okhttp                  : "com.squareup.okhttp3:okhttp:$version.okhttp",
+            okhttp_log              : "com.squareup.okhttp3:logging-interceptor:$version.okhttp",
             retrofit                : "com.squareup.retrofit2:retrofit:$version.retrofit",
             retrofit_adapter_rxjava2: "com.squareup.retrofit2:adapter-rxjava2:$version.retrofit",
             retrofit_gson_convertor : "com.squareup.retrofit2:converter-gson:$version.retrofit"
