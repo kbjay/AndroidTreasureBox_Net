@@ -9,7 +9,7 @@ import retrofit2.Converter;
 import retrofit2.Retrofit;
 
 /**
- * 该类是为了处理客户端跟服务端约定的异常信息
+ * 该类是为了配合处理客户端跟服务端约定的异常信息
  * 如果直接用GsonConter的话，那么就需要在每个实体类中加入errorcode跟errorMsg字段
  *
  * @anthor kb_jay

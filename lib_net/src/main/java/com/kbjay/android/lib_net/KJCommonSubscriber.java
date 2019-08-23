@@ -27,7 +27,7 @@ public abstract class KJCommonSubscriber<T> implements Subscriber<T> {
     @Override
     public void onSubscribe(Subscription s) {
         s.request(1);
-        // TODO: 2019-08-23 将s存放到Disposable中
+        KJDisposableManager.getInstance().put(mCancelTag, s);
     }
 
     @Override

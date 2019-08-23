@@ -2,12 +2,8 @@ package com.kbjay.android.lib_net;
 
 import android.support.v4.util.ArrayMap;
 
-import org.reactivestreams.Subscriber;
-
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 
@@ -37,9 +33,11 @@ public class KJNetManager {
 
     /**
      * 取消请求，避免内存泄漏
+     * 需要在activity或者fragment destroy的时候调用
      *
      * @param requestTag
      */
     public static void cancel(String requestTag) {
+        KJDisposableManager.getInstance().clear(requestTag);
     }
 }

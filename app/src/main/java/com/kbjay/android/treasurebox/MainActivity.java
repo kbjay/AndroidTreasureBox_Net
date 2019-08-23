@@ -36,28 +36,24 @@ public class MainActivity extends AppCompatActivity {
         api = KJNetManager.getRetrofitProvider()
                 .withBaseUrl("https://wanandroid.com")
                 .withOkHttpProvider(okHttpProvider)
-                .provide()
-                .create(Api.class);
+                .provide(Api.class);
 
-        this.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "hhh", Toast.LENGTH_SHORT).show();
-                KJNetManager.doRequest(MainActivity.class.getSimpleName(),
-                        api.test(),
-                        new KJCommonSubscriber<ArrayList<Data>>() {
+        this.findViewById(R.id.button).setOnClickListener(v -> {
+            Toast.makeText(MainActivity.this, "hhh", Toast.LENGTH_SHORT).show();
+            KJNetManager.doRequest(MainActivity.class.getSimpleName(),
+                    api.test(),
+                    new KJCommonSubscriber<ArrayList<Data>>() {
 
-                            @Override
-                            public void onError(int code, String msg) {
-                                Toast.makeText(MainActivity.this, code + " " + msg, Toast.LENGTH_SHORT).show();
-                            }
+                        @Override
+                        public void onError(int code, String msg) {
+                            Toast.makeText(MainActivity.this, code + " " + msg, Toast.LENGTH_SHORT).show();
+                        }
 
-                            @Override
-                            public void onSuccess(ArrayList<Data> data) {
-                                Toast.makeText(MainActivity.this, data.toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-            }
+                        @Override
+                        public void onSuccess(ArrayList<Data> data) {
+                            Toast.makeText(MainActivity.this, data.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
         });
     }
 }

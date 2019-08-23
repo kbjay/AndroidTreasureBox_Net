@@ -79,4 +79,8 @@ public class KJRetrofitProvider {
                 .build();
         return retrofit;
     }
+
+    public <T> T provide(Class<T> clazz) {
+        return provide().create(clazz);
+    }
 }
