@@ -1,7 +1,7 @@
 package com.kbjay.android.lib_net.interceptor;
 
+import android.support.v4.util.ArrayMap;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Set;
 
 import okhttp3.Interceptor;
@@ -16,11 +16,18 @@ import okhttp3.Response;
  * @time 2019/7/3 16:54
  **/
 public class KJCommonHeaderInterceptor implements Interceptor {
-    private final HashMap<String, String> mCommonHeader;
+    private final ArrayMap<String, String> mCommonHeader;
 
+    /**
+     * 这里使用接口，而不是直接给mCommonHeader，是为了header参数的实时性，比如token是会变化的。
+     * 同时使用接口可以配合处理token失效问题。
+     * token失效之后需要重新申请token，成功之后需要拿着新的token重新请求。
+     *
+     * @param commonHeaderProvider
+     */
     public KJCommonHeaderInterceptor(CommonHeaderProvider commonHeaderProvider) {
         if (commonHeaderProvider == null) {
-            throw new RuntimeException("provider can not null!");
+            throw new NullPointerException("provider can not null!");
         }
 
         mCommonHeader = commonHeaderProvider.provide();
@@ -54,6 +61,6 @@ public class KJCommonHeaderInterceptor implements Interceptor {
      * @time 2019/7/15 14:22
      **/
     public interface CommonHeaderProvider {
-        HashMap<String, String> provide();
+        ArrayMap<String, String> provide();
     }
 }

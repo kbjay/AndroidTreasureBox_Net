@@ -29,6 +29,7 @@ public class KJOkHttpProvider {
         OkHttpClient.Builder okHttpBuilder = builder.mOkHttpClient.newBuilder();
 
         if (builder.mIsLogOpen) {
+            //解决部分机型不打印log
             okHttpBuilder.addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
                 @Override
                 public void log(String message) {

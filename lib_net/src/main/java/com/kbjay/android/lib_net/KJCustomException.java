@@ -7,14 +7,27 @@ package com.kbjay.android.lib_net;
  * @time 2019/7/3 8:12
  **/
 public class KJCustomException extends Exception {
-    private int code;
-    private String message;
+    private int errorCode;
+    private String errorMsg;
 
-    public int getCode() {
-        return code;
+    public KJCustomException(int code, String message) {
+        this.errorCode = code;
+        this.errorMsg = message;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public int getErrorCode() {
+        return errorCode;
+    }
+
+    public void setErrorCode(int errorCode) {
+        this.errorCode = errorCode;
+    }
+
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
     }
 }

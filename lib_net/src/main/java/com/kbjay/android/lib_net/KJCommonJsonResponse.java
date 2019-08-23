@@ -6,7 +6,7 @@ package com.kbjay.android.lib_net;
  * @author v-zewan
  * @time 2019/7/3 17:28
  **/
-public class KJJsonResponse<T> {
+public class KJCommonJsonResponse<T> {
     private int code;
     private String message;
     private T data;
