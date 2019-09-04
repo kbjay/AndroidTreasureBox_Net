@@ -1,12 +1,15 @@
 package com.kbjay.android.lib_net;
 
-import android.support.v4.util.ArrayMap;
 import android.util.Log;
+
+import com.kbjay.android.lib_net.tip.KJTipEntity;
+import com.kbjay.android.lib_net.tip.KJTipManager;
 
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import retrofit2.HttpException;
 
@@ -49,33 +52,57 @@ public abstract class KJCommonSubscriber<T> implements Subscriber<T> {
         String msg;
         if (t instanceof KJCustomException) {
             KJCustomException exception = (KJCustomException) t;
-            ArrayMap<String, String> commonError = KJNetManager.getCommonError();
-            if (commonError != null && commonError.size() > 0) {
+            HashMap<Integer, String> customTips = KJTipManager.getInstance().getCustomTips();
+            if (customTips != null && customTips.size() > 0) {
                 //如果设置了commonError以客户端设置的为准
-                if (!commonError.keySet().contains(String.valueOf(exception.getErrorCode()))) {
+                if (!customTips.keySet().contains(exception.getErrorCode())) {
                     code = exception.getErrorCode();
-                    msg = commonError.get(String.valueOf(exception.getErrorCode()));
+                    msg = customTips.get(exception.getErrorCode());
                 } else {
-                    Log.w(KJNetConstant.TAG, "custom error not in client error-list");
                     code = exception.getErrorCode();
                     msg = exception.getErrorMsg();
+                    //服务端返回了一个异常，但是不在客户端异常列表中
+                    Log.w(KJNetConstant.TAG, "custom error not in client error-list" + code + " " + msg);
                 }
             } else {
+                Log.w(KJNetConstant.TAG, "suggest config KJTipManager");
+                //客户端没有设置自定义异常
                 code = exception.getErrorCode();
                 msg = exception.getErrorMsg();
             }
         } else if (t instanceof IOException) {
             //网络异常
-            code = KJNetConstant.NET_ERROR_IOEXCETION;
-            msg = t.getMessage();
+            KJTipEntity ioExceptionTip = KJTipManager.getInstance().getIOExceptionTip();
+            if (ioExceptionTip != null) {
+                code = ioExceptionTip.code;
+                msg = ioExceptionTip.tipContent;
+            } else {
+                Log.w(KJNetConstant.TAG, "suggest config KJTipManager");
+                code = KJNetConstant.NET_ERROR_IOEXCETION;
+                msg = t.getMessage();
+            }
         } else if (t instanceof HttpException) {
             //非200 异常
-            code = KJNetConstant.NET_ERROR_HTTPEXCEPTION;
-            msg = t.getMessage();
+            KJTipEntity httpExceptionTip = KJTipManager.getInstance().getHttpExceptionTip();
+            if (httpExceptionTip != null) {
+                code = httpExceptionTip.code;
+                msg = httpExceptionTip.tipContent;
+            } else {
+                Log.w(KJNetConstant.TAG, "suggest config KJTipManager");
+                code = KJNetConstant.NET_ERROR_HTTPEXCEPTION;
+                msg = t.getMessage();
+            }
         } else {
             //未知异常
-            code = KJNetConstant.NET_ERROR_UNKNOW;
-            msg = KJNetConstant.NET_ERROR_UNKNOW_MSG;
+            KJTipEntity unknowTip = KJTipManager.getInstance().getUnknowTip();
+            if (unknowTip != null) {
+                code = unknowTip.code;
+                msg = unknowTip.tipContent;
+            } else {
+                Log.w(KJNetConstant.TAG, "suggest config KJTipManager");
+                code = KJNetConstant.NET_ERROR_UNKNOW;
+                msg = KJNetConstant.NET_ERROR_UNKNOW_MSG;
+            }
         }
         onError(code, msg);
     }

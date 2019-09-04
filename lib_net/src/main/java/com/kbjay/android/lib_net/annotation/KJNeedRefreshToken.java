@@ -14,4 +14,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface KJNeedRefreshToken {
+    /**
+     * 跟服务端约定的token失效时返回的code
+     *
+     * @return
+     */
+    int code() default -1;
 }

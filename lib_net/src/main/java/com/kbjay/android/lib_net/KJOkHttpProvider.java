@@ -20,13 +20,17 @@ public class KJOkHttpProvider {
     private static final String TAG = "http";
     private OkHttpClient mOkHttpClient;
 
+    public KJOkHttpProvider() {
+        mOkHttpClient = new OkHttpClient.Builder().build();
+    }
+
     /**
      * 根据builder的参数构建okHttpClient
      *
      * @param builder
      */
     private KJOkHttpProvider(Builder builder) {
-        OkHttpClient.Builder okHttpBuilder = builder.mOkHttpClient.newBuilder();
+        OkHttpClient.Builder okHttpBuilder = builder.mOkHttpClientBuilder;
 
         if (builder.mIsLogOpen) {
             //解决部分机型不打印log
@@ -55,7 +59,7 @@ public class KJOkHttpProvider {
     }
 
     /**
-     * 扩展okhttp的功能（设置参数）
+     * 在okhttp的基础上扩展功能（设置参数）
      * 1：log开关
      * 2：todo mock开关
      * 3：multHost开关
@@ -66,17 +70,24 @@ public class KJOkHttpProvider {
      * @time 2019/7/15 11:31
      **/
     public static final class Builder {
-        OkHttpClient mOkHttpClient;
+        /**
+         * 接收okhttp原有的所有配置，比如设置超时时间，cache等
+         */
+        OkHttpClient.Builder mOkHttpClientBuilder;
+
+        /**
+         * 以下为扩展的功能
+         */
         boolean mIsLogOpen;
         boolean mIsMultHost;
         KJCommonHeaderInterceptor.CommonHeaderProvider mCommomHeaderProvider;
 
-        public Builder(OkHttpClient okHttpClient) {
-            this.mOkHttpClient = okHttpClient;
+        public Builder(OkHttpClient.Builder okHttpClientBuilder) {
+            this.mOkHttpClientBuilder = okHttpClientBuilder;
         }
 
         public Builder() {
-            this.mOkHttpClient = new OkHttpClient.Builder().build();
+            this.mOkHttpClientBuilder = new OkHttpClient.Builder();
         }
 
         public Builder setIsLogOpen(boolean isLogOpen) {

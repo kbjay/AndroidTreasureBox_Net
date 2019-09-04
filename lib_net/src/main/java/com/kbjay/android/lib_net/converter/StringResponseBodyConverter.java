@@ -1,9 +1,6 @@
 package com.kbjay.android.lib_net.converter;
 
-import android.util.Log;
-
 import java.io.IOException;
-import java.io.Reader;
 
 import okhttp3.ResponseBody;
 import retrofit2.Converter;

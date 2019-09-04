@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * 取消注册
+ * 全局配置，所以单例管理app所有的网络请求
  *
  * @author v-zewan
  * @time 2019/7/3 8:10

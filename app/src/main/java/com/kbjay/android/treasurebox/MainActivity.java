@@ -1,19 +1,20 @@
 package com.kbjay.android.treasurebox;
 
+import android.os.Handler;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
 import com.kbjay.android.lib_net.KJCommonSubscriber;
 import com.kbjay.android.lib_net.KJNetManager;
 import com.kbjay.android.lib_net.KJOkHttpProvider;
+import com.kbjay.android.lib_net.KJRetrofitProvider;
 import com.kbjay.android.treasurebox.test_net.Api;
 import com.kbjay.android.treasurebox.test_net.Data;
 
+import java.security.Provider;
 import java.util.ArrayList;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
                 .setIsMultHost(true)
                 .build();
 
-        api = KJNetManager.getRetrofitProvider()
+        api = KJRetrofitProvider.newInstance()
                 .withBaseUrl("https://wanandroid.com")
                 .withOkHttpProvider(okHttpProvider)
                 .provide(Api.class);
@@ -55,6 +56,13 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //取消网络请求
+        KJNetManager.cancel(MainActivity.class.getSimpleName());
     }
 }
 
